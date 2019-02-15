@@ -1,0 +1,6 @@
+.DS_Store
+src/*
+!src/.gitkeep
+test/
+mysql/
+.idea/

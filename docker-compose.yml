@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  frontend:
+    build: .
+    image: sensson/magento2
+    restart: always
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    ports:
+      - "8000:80"
+    environment:
+      - RUNTYPE=development
+      - MYSQL_HOSTNAME=mysql
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=magento
+      - CRYPTO_KEY=secured
+      - URI=http://localhost:8000
+      - BACKEND_FRONTNAME=admin
+      - UNATTENDED=true
+    networks:
+      - backend
+
+  mysql:
+    image: mysql:5
+    restart: always
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=magento
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
