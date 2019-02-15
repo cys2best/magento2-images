@@ -1,7 +1,7 @@
 # Base image is PHP 5.6 running Apache
 FROM php:7.0.23-apache
-LABEL company="Sensson"
-LABEL maintainer="info@sensson.net"
+LABEL company="Telio"
+LABEL maintainer="tuananh@telio.vn"
 
 ENV MAGENTO_VERSION=2.2.7
 ENV INSTALL_DIR="/var/www/html"

@@ -2,7 +2,7 @@
 
 [![Docker Automated Build](https://img.shields.io/docker/automated/sensson/magento2.svg)](https://hub.docker.com/r/sensson/magento2/) [![Docker Build Status](https://img.shields.io/docker/build/sensson/magento2.svg)](https://hub.docker.com/r/sensson/magento2/)
 
-A base Magento 2 image that can be used to scale in production. This can
+A base Magento 2 image bases on sensson/magento2, that can be used to scale in production. This can
 be used in combination with MySQL and Redis. It is opinionated and includes
 support for Composer, ionCube, Redis, OPcache, and the required PHP modules
 for a basic Magento installation.
@@ -14,7 +14,7 @@ It does not include Magento.
 An example `Dockerfile`
 
 ```
-FROM sensson/magento2
+FROM tuananhngo1268/magento2
 COPY src/ /var/www/html/
 ```
 
