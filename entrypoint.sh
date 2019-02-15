@@ -46,6 +46,7 @@ else
   echo "Changing permissions to www-data.. "
   chown  www-data:www-data /var/www/html -R
   chmod 777 /var/www/html -R
+  export PATH=$PATH:/var/www/html/bin
   #cd $WORKING_DIR && find . -type d -print0 | xargs -0 chmod 755
   #cd $WORKING_DIR && find . -type f -print0 | xargs -0 chmod 644
   # Set the base Magento command to bin/magento
