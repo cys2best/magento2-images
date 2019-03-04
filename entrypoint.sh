@@ -38,15 +38,23 @@ else
 
   # composer install
   composer config http-basic.repo.magento.com 25b7056b9d108d174396622f77c3f41d d58281e805a937d51e2b346cdbc57ffb
-  composer install
-  #if [ ! -d "${WORKING_DIR}\/vendor" ]; then
-   # composer install
-  #fi
+  if [ ! -d "${WORKING_DIR}\/vendor" ]; then
+    composer install
+  fi
 
   echo "Changing permissions to www-data.. "
   chown  www-data:www-data /var/www/html -R
   chmod 777 /var/www/html -R
-  export PATH=$PATH:/var/www/html/bin
+  chmod +x /usr/local/bin/magento-permission-update
+
+  # Run any commands that need to run before code compilation starts
+  if [ -f "${PRE_COMPILE_HOOK}" ]; then
+    echo "HOOKS: Running PRE_COMPILE_HOOK"
+    chmod +x "${PRE_COMPILE_HOOK}"
+    $PRE_COMPILE_HOOK
+  fi
+
+
   #cd $WORKING_DIR && find . -type d -print0 | xargs -0 chmod 755
   #cd $WORKING_DIR && find . -type f -print0 | xargs -0 chmod 644
   # Set the base Magento command to bin/magento
@@ -82,9 +90,7 @@ else
     chmod +x "${PRE_INSTALL_HOOK}"
     $PRE_INSTALL_HOOK
   fi
-
-  echo "${CMD_INSTALL}"
-  #$CMD_INSTALL
+  $CMD_INSTALL
 
   # Run setup:db:status to get an idea about the current state
   CHECK_STATUS=$($CMD_MAGENTO setup:db:status 2>&1 || true)
@@ -120,13 +126,6 @@ else
   #     fi
   #   fi
   # fi
-
-  # Run any commands that need to run before code compilation starts
-  if [ -f "${PRE_COMPILE_HOOK}" ]; then
-    echo "HOOKS: Running PRE_COMPILE_HOOK"
-    chmod +x "${PRE_COMPILE_HOOK}"
-    $PRE_COMPILE_HOOK
-  fi
 
   # Run code compilation
   $CMD_MAGENTO module:enable --all

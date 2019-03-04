@@ -34,6 +34,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) intl \
     && docker-php-ext-install -j$(nproc) pdo \
     && docker-php-ext-install -j$(nproc) pdo_mysql \
+    && docker-php-ext-install -j$(nproc) sockets \
     && pecl install redis-3.1.0 \
     && docker-php-ext-enable redis \
     && a2enmod rewrite headers \
@@ -60,6 +61,7 @@ RUN cd /tmp \
 
 # Set up the application
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY scripts/set-permission.sh /usr/local/bin/magento-permission-update
 COPY etc/php.ini /usr/local/etc/php/conf.d/00_magento.ini
 COPY etc/apache.conf /etc/apache2/conf-enabled/00_magento.conf
 
